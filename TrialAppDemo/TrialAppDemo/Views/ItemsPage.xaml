@@ -25,19 +25,24 @@
         <ToolbarItem Text="Edit" Clicked="ToolbarItem_Clicked"></ToolbarItem>
 
     </ContentPage.ToolbarItems>
-
-    <RelativeLayout x:Name="relativeLayout">
+    <StackLayout>
+        <RelativeLayout x:Name="relativeLayout">
 
         <!--TextChanged="OnFilterTextChanged"--> 
       
 
-        <StackLayout>
+       
 
             <SearchBar x:Name="filterText"
                    Grid.Row="0"
                    Grid.Column="0"
                    IsVisible="true"
                    Placeholder="Search here to Filter" 
+                   RelativeLayout.WidthConstraint="{ConstraintExpression
+                                            Type=RelativeToParent,
+                                            Property=Width,
+                                            Factor=1}"
+                    
                        TextChanged="OnFilterTextChanged" />
             <!--GridStyle="{StaticResource dark}"-->
             <Syncfusion:SfDataGrid x:Name="dataGrid"
@@ -49,18 +54,21 @@
                             
                             
                             RelativeLayout.WidthConstraint="{ConstraintExpression
-                                                      Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+                                                      Type=RelativeToParent,
+                                                      Property=Width,Factor=1,Constant=0}"
                             RelativeLayout.HeightConstraint="{ConstraintExpression
-                                                      Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+                                                      Type=RelativeToParent, Property=Height,Factor=0.8, Constant=0}"
+                            RelativeLayout.YConstraint="{ConstraintExpression
+                                                      Type=RelativeToView,ElementName=filterText, Property=Height,Factor=1, Constant=0.8}"
                             GridLongPressed="dataGrid_GridLongPressed"
                             CurrentCellEndEdit="dataGrid_CurrentCellEndEdit"
                            >
 
 
         </Syncfusion:SfDataGrid>
-        </StackLayout>
+     
     </RelativeLayout>
- 
+    </StackLayout>
     <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
     </ContentPage.ToolbarItems>
