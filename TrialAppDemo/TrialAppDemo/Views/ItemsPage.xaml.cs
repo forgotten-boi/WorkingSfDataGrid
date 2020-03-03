@@ -174,14 +174,14 @@ namespace TrialAppDemo.Views
             var row = Grid.GetRow(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
             var column = Grid.GetColumn(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
 
-
+            edittedIndex = this.dataGrid.SelectedIndex;
             //this.dataGrid.QueryRowStyle += dataGrid_QueryRowStyle;
             //dataGrid_QueryRowStyle(sender, new QueryRowStyleEventArgs(dataGrid));
             IsEditted = true;
             //obj.BackgroundColor = Color.Red;
             Debug.WriteLine("End Edit Called");
             //if (await DisplayAlert("Edit Enabled", "Data Updated, Do you like to edit anotherOne", "Yes", "No"))
-                DisableEdit();
+               
         }
 
         private void dataGrid_QueryCellStyle(object sender, QueryCellStyleEventArgs e)
@@ -191,19 +191,20 @@ namespace TrialAppDemo.Views
             //e.Handled = true;
         }
         public bool IsEditted = false;
+        public int edittedIndex { get; set; }
         private void dataGrid_QueryRowStyle(object sender, QueryRowStyleEventArgs e)
         {
-            //if (e.RowIndex == this.dataGrid.SelectedIndex)
-            //{
-            //    e.Style.BackgroundColor = Color.CornflowerBlue;
-            //    e.Style.ForegroundColor = Color.White;
-            //}viewModel.OrdersInfo[4] 
+         
             var grid = sender as SfDataGrid;
-            if ((e.RowData == grid.SelectedItem || e.RowIndex == grid.SelectedIndex) && IsEditted)
+            //if ((e.RowData == grid.SelectedItem || e.RowIndex == grid.SelectedIndex) && IsEditted)
+            //{
+            if (e.RowIndex == edittedIndex || viewModel.OrdersInfo[e.RowIndex].IsClosed)
             {
-                e.Style.BackgroundColor = Color.CornflowerBlue;
-                e.Style.ForegroundColor = Color.White;
+                e.Style.BackgroundColor = Color.DarkRed; 
+                e.Style.ForegroundColor = Color.DarkSeaGreen; 
+                viewModel.OrdersInfo[e.RowIndex].IsClosed = true; 
                 IsEditted = false;
+                DisableEdit();
             }
             e.Handled = true;
         }

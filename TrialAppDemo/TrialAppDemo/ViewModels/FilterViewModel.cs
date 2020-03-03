@@ -7,7 +7,7 @@ using TrialAppDemo.Models;
 
 namespace TrialAppDemo.ViewModels
 {
-    public partial class OrderViewModel : BaseViewModel // : INotifyPropertyChanged
+    public partial class OrderViewModel //: BaseViewModel // : INotifyPropertyChanged
     {
         // ViewModel.cs
 
