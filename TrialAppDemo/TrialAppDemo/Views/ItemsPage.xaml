@@ -3,12 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TrialAppDemo.ViewModels"
+             xmlns:Syncfusion="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
+             xmlns:local1="clr-namespace:TrialAppDemo.Models"
              mc:Ignorable="d"
              x:Class="TrialAppDemo.Views.ItemsPage"
              Title="{Binding Title}"
              x:Name="BrowseItemsPage">
-
+    <ContentPage.BindingContext>
+        <local:OrderViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local1:Dark x:Key="dark" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
+       
+            <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
+        <ToolbarItem Text="Edit" Clicked="ToolbarItem_Clicked"></ToolbarItem>
+
+    </ContentPage.ToolbarItems>
+
+    <RelativeLayout x:Name="relativeLayout">
+
+        <!--TextChanged="OnFilterTextChanged"--> 
+      
+
+        <StackLayout>
+
+            <SearchBar x:Name="filterText"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   IsVisible="true"
+                   Placeholder="Search here to Filter" 
+                       TextChanged="OnFilterTextChanged" />
+            <!--GridStyle="{StaticResource dark}"-->
+            <Syncfusion:SfDataGrid x:Name="dataGrid"
+                           ItemsSource="{Binding OrdersInfo}"
+                           
+                           DefaultColumnWidth="100" 
+                           AllowDraggingRow="True"
+                           QueryRowStyle="dataGrid_QueryRowStyle"
+                            
+                            
+                            RelativeLayout.WidthConstraint="{ConstraintExpression
+                                                      Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+                            RelativeLayout.HeightConstraint="{ConstraintExpression
+                                                      Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+                            GridLongPressed="dataGrid_GridLongPressed"
+                            CurrentCellEndEdit="dataGrid_CurrentCellEndEdit"
+                           >
+
+
+        </Syncfusion:SfDataGrid>
+        </StackLayout>
+    </RelativeLayout>
+ 
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
     </ContentPage.ToolbarItems>
 
@@ -51,6 +104,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackLayout>
+    </StackLayout>-->
 
 </ContentPage>
