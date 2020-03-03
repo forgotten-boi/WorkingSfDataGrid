@@ -6,7 +6,7 @@ using TrialAppDemo.Models;
 
 namespace TrialAppDemo.ViewModels
 {
-    public partial class OrderViewModel : BaseViewModel
+    public  class OrderViewModel : BaseViewModel
     {
 
         public OrderViewModel()

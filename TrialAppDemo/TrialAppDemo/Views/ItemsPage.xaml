@@ -31,14 +31,14 @@
         <!--TextChanged="OnFilterTextChanged"--> 
       
 
-        <StackLayout>
+        <RelativeLayout>
 
-            <SearchBar x:Name="filterText"
+            <!--<SearchBar x:Name="filterText"
                    Grid.Row="0"
                    Grid.Column="0"
                    IsVisible="true"
                    Placeholder="Search here to Filter" 
-                       TextChanged="OnFilterTextChanged" />
+                       TextChanged="OnFilterTextChanged" />-->
             <!--GridStyle="{StaticResource dark}"-->
             <Syncfusion:SfDataGrid x:Name="dataGrid"
                            ItemsSource="{Binding OrdersInfo}"
@@ -58,7 +58,7 @@
 
 
         </Syncfusion:SfDataGrid>
-        </StackLayout>
+        </RelativeLayout>
     </RelativeLayout>
  
     <!--<ContentPage.ToolbarItems>

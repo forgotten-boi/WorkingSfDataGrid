@@ -36,7 +36,7 @@ namespace TrialAppDemo.Views
             dataGrid.GridTapped += DataGrid_GridTapped;
             dataGrid.AllowSorting = true;
             BindingContext = viewModel = new OrderViewModel();
-            viewModel.filterTextChanged = OnFilterChanged;
+            //viewModel.filterTextChanged = OnFilterChanged;
 
         }
 
@@ -147,26 +147,26 @@ namespace TrialAppDemo.Views
             this.dataGrid.EditorSelectionBehavior = EditorSelectionBehavior.MoveLast;
         }
 
-        #region Filtering
-        private void OnFilterTextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (e.NewTextValue == null)
-                viewModel.FilterText = "";
-            else
-                viewModel.FilterText = e.NewTextValue;
-            //viewModel = viewModel.OrdersInfo.Where(p => p.CustomerName.Contains(e.NewTextValue.ToLower()));
-        }
+        //#region Filtering
+        //private void OnFilterTextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (e.NewTextValue == null)
+        //        viewModel.FilterText = "";
+        //    else
+        //        viewModel.FilterText = e.NewTextValue;
+        //    //viewModel = viewModel.OrdersInfo.Where(p => p.CustomerName.Contains(e.NewTextValue.ToLower()));
+        //}
 
-        private void OnFilterChanged()
-        {
-            if (dataGrid.View != null)
-            {
-                this.dataGrid.View.Filter = viewModel.FilerRecords;
-                this.dataGrid.View.RefreshFilter();
-            }
-        }
+        //private void OnFilterChanged()
+        //{
+        //    if (dataGrid.View != null)
+        //    {
+        //        this.dataGrid.View.Filter = viewModel.FilerRecords;
+        //        this.dataGrid.View.RefreshFilter();
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         private async void dataGrid_CurrentCellEndEdit(object sender, GridCurrentCellEndEditEventArgs e)
         {
@@ -178,10 +178,12 @@ namespace TrialAppDemo.Views
             //this.dataGrid.QueryRowStyle += dataGrid_QueryRowStyle;
             //dataGrid_QueryRowStyle(sender, new QueryRowStyleEventArgs(dataGrid));
             IsEditted = true;
+            edittedIndex = this.dataGrid.SelectedIndex;
+            
             //obj.BackgroundColor = Color.Red;
             Debug.WriteLine("End Edit Called");
             //if (await DisplayAlert("Edit Enabled", "Data Updated, Do you like to edit anotherOne", "Yes", "No"))
-                DisableEdit();
+                //DisableEdit();
         }
 
         private void dataGrid_QueryCellStyle(object sender, QueryCellStyleEventArgs e)
@@ -191,6 +193,7 @@ namespace TrialAppDemo.Views
             //e.Handled = true;
         }
         public bool IsEditted = false;
+        public int edittedIndex { get; set; }
         private void dataGrid_QueryRowStyle(object sender, QueryRowStyleEventArgs e)
         {
             //if (e.RowIndex == this.dataGrid.SelectedIndex)
@@ -198,12 +201,18 @@ namespace TrialAppDemo.Views
             //    e.Style.BackgroundColor = Color.CornflowerBlue;
             //    e.Style.ForegroundColor = Color.White;
             //}viewModel.OrdersInfo[4] 
+           
             var grid = sender as SfDataGrid;
-            if ((e.RowData == grid.SelectedItem || e.RowIndex == grid.SelectedIndex) && IsEditted)
+            var parseOrderInfo = (OrderInfo)grid.SelectedItem;
+            //if (((e.RowData == grid.SelectedItem || e.RowIndex == grid.SelectedIndex) && IsEditted)
+            //            || parseOrderInfo?.IsClosed == true)
+            if(e.RowIndex == edittedIndex || viewModel.OrdersInfo[e.RowIndex].IsClosed)
             {
-                e.Style.BackgroundColor = Color.CornflowerBlue;
-                e.Style.ForegroundColor = Color.White;
+                e.Style.BackgroundColor = Color.DarkRed;
+                e.Style.ForegroundColor = Color.DarkSeaGreen;
+                viewModel.OrdersInfo[e.RowIndex].IsClosed = true;
                 IsEditted = false;
+                DisableEdit();
             }
             e.Handled = true;
         }
