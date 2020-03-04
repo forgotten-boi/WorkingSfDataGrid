@@ -154,7 +154,7 @@ namespace TrialAppDemo.Views
                 viewModel.FilterText = "";
             else
                 viewModel.FilterText = e.NewTextValue;
-            //viewModel = viewModel.OrdersInfo.Where(p => p.CustomerName.Contains(e.NewTextValue.ToLower()));
+         
         }
 
         private void OnFilterChanged()
@@ -175,8 +175,9 @@ namespace TrialAppDemo.Views
             var column = Grid.GetColumn(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
 
             edittedIndex = this.dataGrid.SelectedIndex;
-            //this.dataGrid.QueryRowStyle += dataGrid_QueryRowStyle;
-            //dataGrid_QueryRowStyle(sender, new QueryRowStyleEventArgs(dataGrid));
+        
+           
+         
             IsEditted = true;
             //obj.BackgroundColor = Color.Red;
             Debug.WriteLine("End Edit Called");
@@ -213,8 +214,19 @@ namespace TrialAppDemo.Views
 
         private void ThemeChange_Clicked(object sender, EventArgs e)
         {
+            Debug.WriteLine(this.dataGrid.GridStyle.GetType());
+            var defaultTheme = new Syncfusion.SfDataGrid.XForms.DefaultStyle();
 
-            this.dataGrid.GridStyle = new Dark() ;
+            if (this.dataGrid.GridStyle.GetType() == typeof(Syncfusion.SfDataGrid.XForms.DefaultStyle))
+            {
+                this.dataGrid.GridStyle = new Dark();
+                this.Theme.Text = "Dark";
+            }
+            else
+            {
+                this.dataGrid.GridStyle = new Syncfusion.SfDataGrid.XForms.DefaultStyle();
+                this.Theme.Text = "Light";
+            }
         }
     }
 

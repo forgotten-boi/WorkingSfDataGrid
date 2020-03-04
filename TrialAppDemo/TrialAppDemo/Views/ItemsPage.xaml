@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Light" Clicked="ThemeChange_Clicked" />
+        <ToolbarItem x:Name="Theme" Text="Light" Clicked="ThemeChange_Clicked" />
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
         <ToolbarItem Text="Edit" Clicked="ToolbarItem_Clicked"></ToolbarItem>
 
@@ -58,7 +58,7 @@
                                                       Type=RelativeToParent,
                                                       Property=Width,Factor=1,Constant=0}"
                             RelativeLayout.HeightConstraint="{ConstraintExpression
-                                                      Type=RelativeToParent, Property=Height,Factor=0.8, Constant=0}"
+                                                      Type=RelativeToParent, Property=Height,Factor=1, Constant=0}"
                             RelativeLayout.YConstraint="{ConstraintExpression
                                                       Type=RelativeToView,ElementName=filterText, Property=Height,Factor=1, Constant=0.8}"
                             GridLongPressed="dataGrid_GridLongPressed"
