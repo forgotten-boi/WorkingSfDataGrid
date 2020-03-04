@@ -168,16 +168,17 @@ namespace TrialAppDemo.Views
 
         #endregion
 
-        private async void dataGrid_CurrentCellEndEdit(object sender, GridCurrentCellEndEditEventArgs e)
+        private void dataGrid_CurrentCellEndEdit(object sender, GridCurrentCellEndEditEventArgs e)
         {
             var obj = sender as Syncfusion.SfDataGrid.XForms.SfDataGrid;
             var row = Grid.GetRow(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
             var column = Grid.GetColumn(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
 
             edittedIndex = this.dataGrid.SelectedIndex;
-        
-           
-         
+
+            var parseOrderInfo = (OrderInfo)dataGrid.SelectedItem;
+            viewModel.OrdersInfo.Where(p => p.OrderId == parseOrderInfo.OrderId).FirstOrDefault().IsClosed = true;
+
             IsEditted = true;
             //obj.BackgroundColor = Color.Red;
             Debug.WriteLine("End Edit Called");
@@ -199,11 +200,13 @@ namespace TrialAppDemo.Views
             var grid = sender as SfDataGrid;
             //if ((e.RowData == grid.SelectedItem || e.RowIndex == grid.SelectedIndex) && IsEditted)
             //{
-            if (e.RowIndex == edittedIndex || viewModel.OrdersInfo[e.RowIndex].IsClosed)
+            //if (e.RowIndex == edittedIndex || viewModel.OrdersInfo[e.RowIndex].IsClosed)
+            var parseOrderInfo = (OrderInfo)e.RowData;
+            if(parseOrderInfo != null && parseOrderInfo.IsClosed)
             {
                 e.Style.BackgroundColor = Color.DarkRed; 
                 e.Style.ForegroundColor = Color.DarkSeaGreen; 
-                viewModel.OrdersInfo[e.RowIndex].IsClosed = true; 
+                //viewModel.OrdersInfo[e.RowIndex].IsClosed = true; 
                 IsEditted = false;
                 DisableEdit();
             }
