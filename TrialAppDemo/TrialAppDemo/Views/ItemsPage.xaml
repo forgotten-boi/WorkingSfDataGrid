@@ -20,8 +20,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-       
-            <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
+        <ToolbarItem Text="Light" Clicked="ThemeChange_Clicked" />
+        <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
         <ToolbarItem Text="Edit" Clicked="ToolbarItem_Clicked"></ToolbarItem>
 
     </ContentPage.ToolbarItems>
@@ -46,18 +46,21 @@
                            DefaultColumnWidth="100" 
                            AllowDraggingRow="True"
                            QueryRowStyle="dataGrid_QueryRowStyle"
-                            
-                            
-                            RelativeLayout.WidthConstraint="{ConstraintExpression
+                           RelativeLayout.WidthConstraint="{ConstraintExpression
                                                       Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                            RelativeLayout.HeightConstraint="{ConstraintExpression
+                           RelativeLayout.HeightConstraint="{ConstraintExpression
                                                       Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
-                            GridLongPressed="dataGrid_GridLongPressed"
-                            CurrentCellEndEdit="dataGrid_CurrentCellEndEdit"
+                           GridLongPressed="dataGrid_GridLongPressed"
+                           CurrentCellEndEdit="dataGrid_CurrentCellEndEdit"
+                           AutoGenerateColumns="True"
+                        
                            >
+                <!--<Syncfusion:SfDataGrid.GroupColumnDescriptions>
+                    <Syncfusion:GroupColumnDescription ColumnName="OrderId" />
+                </Syncfusion:SfDataGrid.GroupColumnDescriptions>-->
 
 
-        </Syncfusion:SfDataGrid>
+            </Syncfusion:SfDataGrid>
         </StackLayout>
     </RelativeLayout>
  

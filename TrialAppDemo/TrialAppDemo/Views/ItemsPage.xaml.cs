@@ -208,28 +208,36 @@ namespace TrialAppDemo.Views
             e.Handled = true;
         }
 
-        [Serializable]
-        public class MyException : Exception
+
+
+        private void ThemeChange_Clicked(object sender, EventArgs e)
         {
-            public MyException()
-            {
 
-            }
-            public MyException(string message) : base(message)
-            {
-                Debug.WriteLine(message);
+            this.dataGrid.GridStyle = new Dark() ;
+        }
+    }
 
-            }
-            public MyException(string message, Exception inner) : base(message, inner)
-            {
-                Debug.WriteLine(message);
-            }
-            protected MyException(
-              System.Runtime.Serialization.SerializationInfo info,
-              System.Runtime.Serialization.StreamingContext context) : base(info, context)
-            {
-                Debug.WriteLine(info);
-            }
+    [Serializable]
+    public class MyException : Exception
+    {
+        public MyException()
+        {
+
+        }
+        public MyException(string message) : base(message)
+        {
+            Debug.WriteLine(message);
+
+        }
+        public MyException(string message, Exception inner) : base(message, inner)
+        {
+            Debug.WriteLine(message);
+        }
+        protected MyException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        {
+            Debug.WriteLine(info);
         }
     }
 }
