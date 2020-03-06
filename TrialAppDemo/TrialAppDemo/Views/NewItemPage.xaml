@@ -14,10 +14,14 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Item.Text}" d:Text="Item name" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small" Margin="0" />
+            <Label Text="Customer Name" FontSize="Medium" />
+            <Entry Text="{Binding Item.CustomerName}" d:Text="Item name" FontSize="Small" />
+            <Label Text="Order Number" FontSize="Medium" />
+            <Editor Text="{Binding Item.OrderId}" d:Text="Order Id" FontSize="Small" Margin="0" />
+            <Label Text="Country" FontSize="Medium" />
+            <Editor Text="{Binding Item.ShipCountry}" d:Text="Shipping Country" FontSize="Small" Margin="0" />
+            <Label Text="City" FontSize="Medium" />
+            <Editor Text="{Binding Item.ShipCity}" d:Text="Shipping City" FontSize="Small" Margin="0" />
         </StackLayout>
     </ContentPage.Content>
     

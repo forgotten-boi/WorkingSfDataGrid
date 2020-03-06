@@ -13,4 +13,14 @@ namespace TrialAppDemo.ViewModels
             Item = item;
         }
     }
+
+    public class OrderDetailViewModel : BaseViewModel
+    {
+        public OrderInfo Item { get; set; }
+        public OrderDetailViewModel(OrderInfo item = null)
+        {
+            Title = item?.CustomerName;
+            Item = item;
+        }
+    }
 }

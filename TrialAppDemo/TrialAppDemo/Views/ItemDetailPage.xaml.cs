@@ -13,26 +13,27 @@ namespace TrialAppDemo.Views
     [DesignTimeVisible(false)]
     public partial class ItemDetailPage : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        OrderDetailViewModel viewModel;
 
-        public ItemDetailPage(ItemDetailViewModel viewModel)
+        public ItemDetailPage(OrderDetailViewModel viewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
         }
 
-        public ItemDetailPage()
+        public ItemDetailPage(OrderInfo orderInfo)
         {
             InitializeComponent();
-
-            var item = new Item
+            var random = new Random();
+            var item = new OrderInfo()
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+                CustomerName = orderInfo.CustomerName,
+                ShipCountry = $"Order: {orderInfo.OrderId}, Locations:{orderInfo.ShipCountry}, {orderInfo.ShipCity}",
+                OrderId = orderInfo.OrderId// orderInfo.ShipCountry,
             };
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new OrderDetailViewModel(item);
             BindingContext = viewModel;
         }
     }

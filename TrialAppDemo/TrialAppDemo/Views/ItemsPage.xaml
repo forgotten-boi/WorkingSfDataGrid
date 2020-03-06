@@ -65,9 +65,9 @@
                             CurrentCellEndEdit="dataGrid_CurrentCellEndEdit"
 
                            >
-                <!--<Syncfusion:SfDataGrid.GroupColumnDescriptions>
-                    <Syncfusion:GroupColumnDescription ColumnName="OrderId" />
-                </Syncfusion:SfDataGrid.GroupColumnDescriptions>-->
+                <Syncfusion:SfDataGrid.GroupColumnDescriptions>
+                    <Syncfusion:GroupColumnDescription ColumnName="CustomerID" />
+                </Syncfusion:SfDataGrid.GroupColumnDescriptions>
 
 
 

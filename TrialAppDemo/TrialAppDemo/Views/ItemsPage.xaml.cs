@@ -24,8 +24,10 @@ namespace TrialAppDemo.Views
         StackLayout contextMenu;
         Button sortButton;
         Button clearSortButton;
+        Button openDetails;
         private bool isContextMenuDisplayed = false;
         private string currentColumnName;
+        private int selectedRow;
 
         public ItemsPage()
         {
@@ -56,10 +58,20 @@ namespace TrialAppDemo.Views
             clearSortButton.TextColor = Color.White;
             clearSortButton.Clicked += ClearSortButton_Clicked;
 
+
+            openDetails = new Button();
+            openDetails.Text = "Order Details";
+            openDetails.BackgroundColor = Color.Black;
+            openDetails.TextColor = Color.White;
+            openDetails.Clicked += OpenDetails_Clicked;
+
             // A custom view hosting two buttons are now created
             contextMenu.Children.Add(sortButton);
             contextMenu.Children.Add(clearSortButton);
+            contextMenu.Children.Add(openDetails);
         }
+
+      
 
         private void DataGrid_GridTapped(object sender, GridTappedEventsArgs e)
         {
@@ -71,21 +83,31 @@ namespace TrialAppDemo.Views
         // Removes the sorting applied to the SfDataGrid
         private void ClearSortButton_Clicked(object sender, EventArgs e)
         {
-            relativeLayout.Children.Remove(contextMenu);
-            isContextMenuDisplayed = false;
+            RemoveContextMenu();
             dataGrid.SortColumnDescriptions.Clear();
         }
 
         // Sorts the SfDataGrid data based on the column selected in the context menu
         private void SortButton_Clicked(object sender, EventArgs e)
         {
-            relativeLayout.Children.Remove(contextMenu);
-            isContextMenuDisplayed = false;
+            RemoveContextMenu();
             dataGrid.SortColumnDescriptions.Clear();
             dataGrid.SortColumnDescriptions.Add(new SortColumnDescription()
             {
                 ColumnName = currentColumnName
             });
+        }
+        private void RemoveContextMenu()
+        {
+            relativeLayout.Children.Remove(contextMenu);
+            isContextMenuDisplayed = false;
+        }
+        private async void OpenDetails_Clicked(object sender, EventArgs e)
+        {
+            RemoveContextMenu();
+            var parseOrderInfo = viewModel.OrdersInfo[selectedRow-1];
+            //viewModel.OrdersInfo.Where(p => p.OrderId.Equals())?.FirstOrDefault();
+            await Navigation.PushModalAsync(new NavigationPage(new ItemDetailPage(parseOrderInfo)));
         }
 
         async void AddItem_Clicked(object sender, EventArgs e)
@@ -98,8 +120,8 @@ namespace TrialAppDemo.Views
             base.OnAppearing();
             dataGrid.SelectionMode = Syncfusion.SfDataGrid.XForms.SelectionMode.Single;
             dataGrid.EditTapAction = TapAction.OnTap;
-            //if (viewModel.Items.Count == 0)
-            //    viewModel.LoadItemsCommand.Execute(null);
+            if (viewModel.OrdersInfo.Count == 0)
+                viewModel.GenerateOrders();
         }
 
         private void dataGrid_GridLongPressed(object sender, Syncfusion.SfDataGrid.XForms.GridLongPressedEventArgs e)
@@ -107,6 +129,8 @@ namespace TrialAppDemo.Views
             if (!isContextMenuDisplayed)
             {
                 currentColumnName = dataGrid.Columns[e.RowColumnIndex.ColumnIndex].MappingName;
+
+                selectedRow = e.RowColumnIndex.RowIndex;
                 var point = dataGrid.RowColumnIndexToPoint(e.RowColumnIndex);
                 // Display the ContextMenu when the SfDataGrid is long pressed
                 relativeLayout.Children.Add(contextMenu, Constraint.Constant(point.X), Constraint.Constant(point.Y));
@@ -171,7 +195,7 @@ namespace TrialAppDemo.Views
         private void dataGrid_CurrentCellEndEdit(object sender, GridCurrentCellEndEditEventArgs e)
         {
             var obj = sender as Syncfusion.SfDataGrid.XForms.SfDataGrid;
-            var row = Grid.GetRow(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
+          
             var column = Grid.GetColumn(this.dataGrid.Children[this.dataGrid.SelectedIndex]);
 
             edittedIndex = this.dataGrid.SelectedIndex;

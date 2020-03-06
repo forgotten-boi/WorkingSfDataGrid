@@ -13,16 +13,16 @@ namespace TrialAppDemo.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        public OrderInfo Item { get; set; }
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            var random = new System.Random();
+            Item = new OrderInfo
             {
-                Text = "Item name",
-                Description = "This is an item description."
+                CustomerID = random.Next()
             };
 
             BindingContext = this;

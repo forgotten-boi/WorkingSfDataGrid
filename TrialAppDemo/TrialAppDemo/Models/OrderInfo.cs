@@ -125,7 +125,10 @@ namespace TrialAppDemo.Models
             }
         
         }
+        public OrderInfo()
+        {
 
+        }
         public OrderInfo(int orderId, int customerId, string customerName, string shipCity, string shipCountry)
         {
             OrderId = orderId;
