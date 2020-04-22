@@ -12,6 +12,7 @@ using TrialAppDemo.Views;
 using TrialAppDemo.ViewModels;
 using Syncfusion.SfDataGrid.XForms;
 using System.Diagnostics;
+using System.IO;
 
 namespace TrialAppDemo.Views
 {
@@ -28,7 +29,8 @@ namespace TrialAppDemo.Views
         private bool isContextMenuDisplayed = false;
         private string currentColumnName;
         private int selectedRow;
-
+        public string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                                                                "temp.txt");
         public ItemsPage()
         {
             InitializeComponent();
@@ -122,26 +124,45 @@ namespace TrialAppDemo.Views
             dataGrid.EditTapAction = TapAction.OnTap;
             if (viewModel.OrdersInfo.Count == 0)
                 viewModel.GenerateOrders();
+            if (File.Exists(fileName))
+            {
+                string text = File.ReadAllText(fileName);
+                if(!string.IsNullOrWhiteSpace(text))
+                    DisplayAlert("Previously Saved", text, "Ok");
+            }
         }
 
         private void dataGrid_GridLongPressed(object sender, Syncfusion.SfDataGrid.XForms.GridLongPressedEventArgs e)
         {
-            if (!isContextMenuDisplayed)
+            try
             {
-                currentColumnName = dataGrid.Columns[e.RowColumnIndex.ColumnIndex].MappingName;
+                var parseOrderInfo = (OrderInfo)e.RowData;
+                var text = Newtonsoft.Json.JsonConvert.SerializeObject(parseOrderInfo);
+                File.AppendAllText(fileName, text);
+                DisplayAlert("Text Serialized", text, "Ok");
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert(ex.Message, ex.StackTrace, "Ok");
+                throw;
+            }
+           
+            //if (!isContextMenuDisplayed)
+            //{
+            //    currentColumnName = dataGrid.Columns[e.RowColumnIndex.ColumnIndex].MappingName;
 
-                selectedRow = e.RowColumnIndex.RowIndex;
-                var point = dataGrid.RowColumnIndexToPoint(e.RowColumnIndex);
-                // Display the ContextMenu when the SfDataGrid is long pressed
-                relativeLayout.Children.Add(contextMenu, Constraint.Constant(point.X), Constraint.Constant(point.Y));
-                isContextMenuDisplayed = true;
-            }
-            else
-            {
-                // Hides the context menu when SfDataGrid is long pressed when the context menu is already visible in screen
-                relativeLayout.Children.Remove(contextMenu);
-                isContextMenuDisplayed = false;
-            }
+            //    selectedRow = e.RowColumnIndex.RowIndex;
+            //    var point = dataGrid.RowColumnIndexToPoint(e.RowColumnIndex);
+            //    // Display the ContextMenu when the SfDataGrid is long pressed
+            //    relativeLayout.Children.Add(contextMenu, Constraint.Constant(point.X), Constraint.Constant(point.Y));
+            //    isContextMenuDisplayed = true;
+            //}
+            //else
+            //{
+            //    // Hides the context menu when SfDataGrid is long pressed when the context menu is already visible in screen
+            //    relativeLayout.Children.Remove(contextMenu);
+            //    isContextMenuDisplayed = false;
+            //}
         }
 
         private void ToolbarItem_Clicked(object sender, EventArgs e)
